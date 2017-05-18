@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"    
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.optimus.dao.OperatorMapper">
+	<resultMap type="operator" id="operatorResult">
+		<result column="useruuid" property="useruuid" />
+		<result column="userphone" property="userphone" />
+		<result column="passwd" property="passwd" />
+		<result column="msgcode" property="msgcode" />
+		<result column="username" property="username" />
+		<result column="idcard" property="idcard" />
+		<result column="bankname" property="bankname" />
+		<result column="bankcard" property="bankcard" />
+		<result column="idcardmask" property="idcardmask" />
+		<result column="bankcardmask" property="bankcardmask" />
+		<result column="merchantno" property="merchantno" />
+		<result column="mername" property="mername" />
+		<result column="daprate" property="daprate" />
+		<result column="create" property="create" />
+		<result column="status" property="status" />
+		<result column="type" property="type" />
+		<result column="roletype" property="roleType" />
+	</resultMap>
+	
+	<sql id="selectFields">
+		useruuid,userphone,passwd,msgcode,username,idcard,bankname,bankcard,idcardmask,bankcardmask,
+		merchantno,merchantno,mername,daprate,DATE_FORMAT(CREATETIME,'%Y-%m-%d') AS createtime,status,type,roletype
+	</sql>
+	
+	<!-- 保存接口 -->
+	<insert id="insertOperator" parameterType="operator">
+		INSERT INTO t_optimus_operator (USERUUID,USERPHONE,PASSWD,MERCHANTNO,MERNAME,STATUS,IDCARD,BANKNAME,BANKCARD,IDCARDMASK,
+										BANKCARDMASK,DAPRATE,USERNAME,TYPE,ROLETYPE) 
+		VALUES(#{useruuid},#{userphone},#{passwd},#{merchantno},#{mername},#{status},#{idcard},#{bankname},#{bankcard},#{idcardmask},
+										#{bankcardmask},#{daprate},#{username},#{type},#{roleType})
+	</insert>
+	
+	
+	<select id="getOperatorsByMerNo"  resultType="operatorVo" >
+	
+		select useruuid,userphone,username,status from t_optimus_operator t where t.merchantno=#{merchantno}
+                  		
+	</select>
+
+	
+	<update id="updateDaprate">
+		update t_optimus_operator t set daprate =#{daprate}   where useruuid=#{useruuid} 
+	</update>
+	
+	<update id="updateDaprateMsgCode">
+		update t_optimus_operator t set msgcode =#{msgcode}   where useruuid=#{useruuid} 
+	</update>
+	
+	<select id="getOperatorBankInfo"  resultType="operatorBankInfo" >
+	
+		select username,idcard,bankname,bankcard,idcardmask,bankcardmask,userphone,daprate from t_optimus_operator t where t.useruuid=#{useruuid}
+                  		
+	</select>
+	
+	<update id="updateBankInfo" parameterType="operatorBankInfo">
+		update t_optimus_operator t set username =#{username} ,idcard =#{idcard},
+		bankname =#{bankname},bankcard =#{bankcard},idcardmask =#{idcardmask},bankcardmask =#{bankcardmask}
+		 where useruuid=#{useruuid} 
+	</update>
+	
+	<select id="selectByPage" parameterType="pageModel" resultMap="operatorResult">
+		SELECT <include refid="selectFields"/> FROM t_optimus_operator 
+		<include refid="whereSql"/>
+		ORDER BY createtime desc 
+		LIMIT ${start}, ${pageSize}
+	</select>
+	<select id="selectOperators" parameterType="pageModel" resultMap="operatorResult">
+		SELECT <include refid="selectFields"/> FROM t_optimus_operator 
+		<include refid="whereSql"/>
+		ORDER BY createtime desc 
+	</select>
+	<select id="count" parameterType="pageModel" resultType="int">
+		select count(*) from t_optimus_operator
+		<include refid="whereSql"/>
+	</select>
+	
+	<select id="selectByPageMerOperator" parameterType="pageModel" resultMap="operatorResult">
+		SELECT <include refid="selectFields"/> FROM t_optimus_operator 
+		<include refid="whereSqlMer"/>
+		ORDER BY createtime desc 
+		LIMIT ${start}, ${pageSize}
+	</select>
+	
+	<select id="countMerOperator" parameterType="pageModel" resultType="int">
+		select count(*) from t_optimus_operator
+		<include refid="whereSqlMer"/>
+	</select>
+	
+	<update id="deleteOperator">
+		update t_optimus_operator set status='1' where useruuid=#{useruuid}
+	</update>
+	
+	<select id="selectById" resultType="operator">
+		SELECT <include refid="selectFields"/> FROM t_optimus_operator
+		where useruuid=#{useruuid}
+	</select>
+	
+	<select id="selectByPhone" resultType="operator">
+		SELECT <include refid="selectFields"/> FROM t_optimus_operator
+		where userphone=#{userphone} and status='0' and type in(${type})
+	</select>
+	<select id="selectByPhoneAndMerchantID" resultType="operator">
+		SELECT <include refid="selectFields"/> FROM t_optimus_operator
+		where userphone=#{userphone} and status='0' and merchantno =#{merchantno}
+	</select>
+	<update id="updateOperator" parameterType="operator">
+		update t_optimus_operator set username =#{username} ,userphone=#{userphone}
+		where useruuid=#{useruuid}
+	</update>
+	<update id="updateOperatorById" parameterType="operator">
+		update t_optimus_operator set username =#{username} ,userphone=#{userphone},roleType=#{roleType}
+		where useruuid=#{useruuid}
+	</update>
+	
+	<update id="updateOperatorMer" parameterType="operator">
+		update t_optimus_operator set username =#{username} ,userphone=#{userphone} ,passwd=#{passwd}
+		where merchantno=#{merchantno} and type='1'
+	</update>
+	
+	<update id="updateOperatorByPw">
+		update t_optimus_operator set passwd =#{passwd}
+		where useruuid=#{useruuid}
+	</update>
+	
+	<sql id="whereSql">
+		<where>
+			1 = 1
+			<if test="condition != null">
+               	<if test="condition.username != null and condition.username !='' ">
+					AND username like '%${condition.username}%'
+				</if>
+				<if test="condition.userphone != null and condition.userphone !='' ">
+					AND userphone=#{condition.userphone}
+				</if>
+				<if test="condition.status != null and condition.status !='' ">
+					AND status=#{condition.status}
+				</if>
+				<if test="condition.merchantno != null and condition.merchantno !='' ">
+					AND merchantno=#{condition.merchantno}
+				</if>
+				<if test="condition.type != null and condition.type !='' ">
+					AND type=#{condition.type}
+				</if>
+				<if test="condition.roleType != null and condition.roleType !='' ">
+					AND roleType=#{condition.roleType}
+				</if>
+			</if>
+		</where>
+	</sql>
+	
+		<sql id="whereSqlMer">
+		<where>
+			1 = 1
+			<if test="condition != null">
+               	<if test="condition.username != null and condition.username !='' ">
+					AND username like '%${condition.username}%'
+				</if>
+				<if test="condition.userphone != null and condition.userphone !='' ">
+					AND userphone=#{condition.userphone}
+				</if>
+				<if test="condition.status != null and condition.status !='' ">
+					AND status=#{condition.status}
+				</if>
+				<if test="condition.merchantno != null and condition.merchantno !='' ">
+					AND merchantno=#{condition.merchantno}
+				</if>
+				<if test="condition.mername != null and condition.mername !='' ">
+					AND mername like '%${condition.mername}%'
+				</if>
+				<if test="condition.type != null and condition.type !='' ">
+					AND type in (${condition.type})
+				</if>
+			</if>
+		</where>
+	</sql>
+	
+	<delete id="deleteOperatorById">
+		DELETE from t_optimus_operator WHERE useruuid=#{useruuid}
+	</delete>
+	
+	<select id="selectOperatorsByMerNo"  resultType="operator" >
+		select <include refid="selectFields"/> from t_optimus_operator t where t.merchantno=#{merchantno} and status='0'
+                  		
+	</select>
+	
+	<update id="updateIrrCode">
+		update t_optimus_operator t set msgcode =#{msgcode}   where useruuid=#{useruuid} 
+	</update>
+	
+	<select id="selectByIrrCode"  resultType="operator" >
+		select <include refid="selectFields"/> from t_optimus_operator t where t.msgcode=#{msgcode}
+	</select>
+	<update id="updateOpEditTeacher" parameterType="String">
+		update t_optimus_operator set roleType=#{roletype}
+		where useruuid=#{useruuid}
+	</update>
+</mapper>

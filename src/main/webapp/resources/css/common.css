@@ -1,0 +1,151 @@
+.top-layout{
+	background-color: #476089;
+	width: 100%;
+	font-size: 16px;
+	font-weight: bold;
+}
+.top-layout-img{
+	float: left;
+	margin-top: 20px;
+	margin-left: 50px;
+}
+.top-layout-content{
+	text-align: right;
+	margin-right: 20px;
+	color: #ffffff;
+	line-height: 92px;
+}
+.top-layout-content a{
+	color: #ffffff;
+}
+
+.login-layout{
+	text-align: center;width: 100%;
+}
+.login-layout-form{
+	margin: auto;
+	width: 600px;
+	border: 3px solid #ffffff;
+	height: 300px;position:absolute;
+	left:50%;
+	top:50%;
+	margin-left:-300px;
+	margin-top:-150px;
+	border-radius:15px;
+	background-color: #ffffff;
+	box-shadow: 3px 3px 10px #9edeff;
+}
+.login-layout-form .login-title{
+	height: 50px;
+	line-height: 50px;
+	font-size: 18px;
+	color: #ffffff;
+	letter-spacing: 5px;
+	background-color: #056AC1;
+	border-radius:15px 15px 0px 0px;
+}
+.login-layout-form .login-form-bg{
+	background-color:#ffffff;
+	height: 30px;
+}
+.login-layout-form .login-form-ip{
+	width: 100%;
+	text-align:center;
+	height: 200px;
+}
+.login-layout-form .login-form-bt{
+/* 	margin-left:184px; */
+/* 	margin-bottom:0px; */
+	left:50%; margin-left:-116px;
+	position: absolute;
+	bottom: 0px;
+	cursor: pointer;
+	margin-bottom: -20px;
+}
+.login-form-ip table{
+	margin: 20px auto;
+	line-height: 40px;
+	color: #055cb6;
+	font-size: 20px;
+}
+.login-form-ip table input{
+	width: 300px;
+	border: 1px solid #055cb6;
+	padding-left: 10px;
+	height: 35px;
+	font-size: 20px;
+}
+
+.smart-green {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 300px;
+	padding: 30px 30px 20px 30px;
+	color: #666;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	width: 100%;
+	text-align: center;
+}
+.smart-green table{
+	width: 100%;
+	text-align: left;
+}
+
+.smart-green table td{
+	padding: 5px 5px;
+}
+
+.smart-green .div-button{
+	text-align: center;
+	margin-top: 30px;
+}
+
+.smart-green2{
+	margin-left: auto;
+	margin-right: auto;
+	color: #666;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	width: 100%;
+	text-align: center;
+	max-width: 700px;
+}
+.smart-green2 table{
+	width: 100%;
+	text-align: left;
+}
+.smart-green2 table td{
+	padding: 5px 5px;
+}
+
+.smart-green2 table td:nth-child(2n+1){
+	width: 100px;
+	text-align: center;
+}
+.smart-green2 table td:nth-child(2n){
+	width: 33%;
+}
+
+.smart-green2 .div-button{
+	text-align: center;
+	margin-top: 30px;
+	padding-bottom: 30px;
+}
+
+.smart-green2 input select textarea{
+	width: 150px;
+}
+
+.td_title{
+	text-align: left;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 20px 5px;
+}
+.td_title2{
+	text-align: left;
+	font-size: 14px;
+	font-weight: bold;
+	padding-left: 10px;
+}
